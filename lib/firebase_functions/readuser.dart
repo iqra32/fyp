@@ -9,11 +9,11 @@ class MedicinesGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference users =
+    CollectionReference medRef =
         FirebaseFirestore.instance.collection('medicines');
 
     return StreamBuilder<QuerySnapshot>(
-      stream: users.snapshots(),
+      stream: medRef.snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return const Text("Something went wrong");

@@ -2,9 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pharmacystore/model/notification.dart';
 import 'package:pharmacystore/utils/data.dart';
 import 'package:pharmacystore/utils/refs.dart';
+import 'package:pharmacystore/view/google_map.dart';
+import 'package:pharmacystore/view/models/user_model.dart';
 
 class DetailsScreen extends StatefulWidget {
   final String medicineDetail;
@@ -13,6 +16,7 @@ class DetailsScreen extends StatefulWidget {
   final String price;
   final String postedBy;
   final String medId;
+
   final bool showDeliverButton;
 
   DetailsScreen(
@@ -43,52 +47,56 @@ class _DetailsScreenState extends State<DetailsScreen> {
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          child: Column(
-            children: [
-              Align(
-                alignment: Alignment.topLeft,
-                child: FutureBuilder<DocumentSnapshot>(
-                    future: FBCollections.users.doc(widget.postedBy).get(),
-                    builder: (context,
-                        AsyncSnapshot<DocumentSnapshot> userSnapshot) {
-                      if (userSnapshot.hasData) {
-                        if (userSnapshot.data != null) {
-                          return Padding(
-                            padding: const EdgeInsets.only(
-                                left: 10, top: 5, bottom: 5),
-                            child: Text(
-                              userSnapshot.data!['full_name'],
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 1,
-                                  fontSize: 20),
-                            ),
-                          );
-                        } else {
-                          return Text("");
-                        }
-                      } else {
-                        return LinearProgressIndicator();
-                      }
-                    }),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Image.network(
-                  widget.imageurl,
-                  fit: BoxFit.cover,
-                  height: size.height * 0.35,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  widget.medicineDetail,
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
-            ],
-          ),
+          child: FutureBuilder<DocumentSnapshot>(
+              future: FBCollections.users.doc(widget.postedBy).get(),
+              builder: (context, AsyncSnapshot<DocumentSnapshot> userSnapshot) {
+                if (userSnapshot.hasData) {
+                  if (userSnapshot.data != null) {
+                    Users _user = Users.fromJson(
+                        userSnapshot.data!.data() as Map<String, dynamic>);
+                    // userSnapshot.data!.reference
+                    //     .update({"geopoint": GeoPoint(31.0, 74.0)});
+                    return Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 10, top: 5, bottom: 5),
+                          child: Text(
+                            userSnapshot.data!['full_name'],
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1,
+                                fontSize: 20),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.network(
+                            widget.imageurl,
+                            fit: BoxFit.cover,
+                            height: size.height * 0.35,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            widget.medicineDetail,
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                        GoogleMapForPharmacy(
+                          pharmacyLocation: LatLng(_user.geoPoint.latitude,
+                              _user.geoPoint.longitude),
+                        ),
+                      ],
+                    );
+                  } else {
+                    return Text("");
+                  }
+                } else {
+                  return Center(child: CircularProgressIndicator());
+                }
+              }),
         ),
       ),
       bottomNavigationBar: Padding(

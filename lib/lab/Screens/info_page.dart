@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:pharmacystore/lab/Screens/navigator_screen_for_patient.dart';
 
 import '../../view/home_view.dart';
 
-
-class dashboard extends StatefulWidget {
-  final String userName;
-  const dashboard({Key? key,required this.userName}) : super(key: key);
+class DashboardScreen extends StatefulWidget {
+  const DashboardScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  State<dashboard> createState() => _dashboardState();
+  State<DashboardScreen> createState() => _DashboardScreenState();
 }
 
-class _dashboardState extends State<dashboard> {
-  
+class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,39 +106,47 @@ class _dashboardState extends State<dashboard> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Stack(
-                children: [
-                  Container(
-                    margin: EdgeInsets.fromLTRB(25.0, 25.0, 25.0, 25.0),
-                    width: 120,
-                    height: 120,
-                    decoration: BoxDecoration(
-                        color: Color(0xff800080),
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            bottomRight: Radius.circular(20))),
-                  ),
-                  Positioned(
-                    top: -5,
-                    left: 35,
-                    child: Image.asset(
-                      'assets/pic3.png',
-                      width: 100,
-                      height: 100,
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NavigatorScreenForPatient()));
+                },
+                child: Stack(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.fromLTRB(25.0, 25.0, 25.0, 25.0),
+                      width: 120,
+                      height: 120,
+                      decoration: BoxDecoration(
+                          color: Color(0xff800080),
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              bottomRight: Radius.circular(20))),
                     ),
-                  ),
-                  Positioned(
-                    bottom: 40,
-                    left: 40,
-                    child: Text(
-                      "Pharmacy Store",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15),
+                    Positioned(
+                      top: -5,
+                      left: 35,
+                      child: Image.asset(
+                        'assets/pic3.png',
+                        width: 100,
+                        height: 100,
+                      ),
                     ),
-                  )
-                ],
+                    Positioned(
+                      bottom: 40,
+                      left: 40,
+                      child: Text(
+                        "Lab",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15),
+                      ),
+                    )
+                  ],
+                ),
               ),
               Stack(
                 children: [
@@ -184,9 +192,10 @@ class _dashboardState extends State<dashboard> {
                   GestureDetector(
                     onTap: (() {
                       Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => const HomeView()),
-  );
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomeView()),
+                      );
                     }),
                     child: Container(
                       margin: EdgeInsets.fromLTRB(25.0, 25.0, 25.0, 25.0),
@@ -225,10 +234,10 @@ class _dashboardState extends State<dashboard> {
                 children: [
                   GestureDetector(
                     onTap: () {
-  //                    Navigator.push(
-  //   context,
-  //   MaterialPageRoute(builder: (context) => const HomeView()),
-  // );
+                      //                    Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(builder: (context) => const HomeView()),
+                      // );
                     },
                     child: Container(
                       margin: EdgeInsets.fromLTRB(25.0, 20.0, 25.0, 25.0),
