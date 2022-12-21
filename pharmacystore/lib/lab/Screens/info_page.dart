@@ -17,7 +17,7 @@ class _dashboardState extends State<dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFF5D5FEF),
+        backgroundColor: const Color(0xFF800080),
         leading: const Icon(Icons.menu),
         title: const Text('DashBoard'),
         centerTitle: true,
@@ -40,7 +40,7 @@ class _dashboardState extends State<dashboard> {
                     width: 120,
                     height: 120,
                     decoration: BoxDecoration(
-                        color: Color(0xffAD57E2),
+                        color: Color(0xff800080),
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(20),
                             bottomRight: Radius.circular(20))),
@@ -74,7 +74,7 @@ class _dashboardState extends State<dashboard> {
                     width: 120,
                     height: 120,
                     decoration: BoxDecoration(
-                        color: Color(0xff579FE2),
+                        color: Color(0xff800080),
                         borderRadius: BorderRadius.only(
                             topRight: Radius.circular(20),
                             bottomLeft: Radius.circular(20))),
@@ -113,7 +113,7 @@ class _dashboardState extends State<dashboard> {
                     width: 120,
                     height: 120,
                     decoration: BoxDecoration(
-                        color: Color(0xff579FE2),
+                        color: Color(0xff800080),
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(20),
                             bottomRight: Radius.circular(20))),
@@ -131,7 +131,7 @@ class _dashboardState extends State<dashboard> {
                     bottom: 40,
                     left: 40,
                     child: Text(
-                      "Time Table",
+                      "Pharmacy Store",
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -147,7 +147,7 @@ class _dashboardState extends State<dashboard> {
                     width: 120,
                     height: 120,
                     decoration: BoxDecoration(
-                        color: Color(0xffE2A257),
+                        color: Color(0xff800080),
                         borderRadius: BorderRadius.only(
                             topRight: Radius.circular(20),
                             bottomLeft: Radius.circular(20))),
@@ -183,18 +183,17 @@ class _dashboardState extends State<dashboard> {
                 children: [
                   GestureDetector(
                     onTap: (() {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //       builder: (context) => profilescreen(userName:widget.userName,)),
-                      // );
+                      Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => const HomeView()),
+  );
                     }),
                     child: Container(
                       margin: EdgeInsets.fromLTRB(25.0, 25.0, 25.0, 25.0),
                       width: 120,
                       height: 130,
                       decoration: BoxDecoration(
-                          color: Color(0xffE257A2),
+                          color: Color(0xff800080),
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(20),
                               bottomRight: Radius.circular(20))),
@@ -213,7 +212,7 @@ class _dashboardState extends State<dashboard> {
                     bottom: 40,
                     left: 40,
                     child: Text(
-                      "My Profile",
+                      "Pahrmacy Store",
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -226,17 +225,17 @@ class _dashboardState extends State<dashboard> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                     Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => const HomeView()),
-  );
+  //                    Navigator.push(
+  //   context,
+  //   MaterialPageRoute(builder: (context) => const HomeView()),
+  // );
                     },
                     child: Container(
                       margin: EdgeInsets.fromLTRB(25.0, 20.0, 25.0, 25.0),
                       width: 120,
                       height: 120,
                       decoration: BoxDecoration(
-                          color: Color(0xffE25757),
+                          color: Color(0xff800080),
                           borderRadius: BorderRadius.only(
                               topRight: Radius.circular(20),
                               bottomLeft: Radius.circular(20))),
