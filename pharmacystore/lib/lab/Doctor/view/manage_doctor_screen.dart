@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pharmacystore/lab/Doctor/Model/doctor_model.dart';
-import 'package:pharmacystore/lab/Doctor/view/pending_appointments.dart';
 
-import '../Model/labs_model.dart';
 import '../Services/services.dart';
 
 class ManageDoctor extends StatelessWidget {
@@ -39,6 +37,7 @@ class ManageDoctor extends StatelessWidget {
                         docName: item.get('docName'),
                         phoneNumber: item.get('phoneNumber'),
                         docQualification: item.get('docQualification'),
+                        docId: item.get('Doctor Id'),
                       );
                       //  LabModel(
                       //     phoneNumber: item.get('Phone Number'),

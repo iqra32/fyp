@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:pharmacystore/docs/all_patient_chats_screen.dart';
 import 'package:pharmacystore/lab/Doctor/view/doctor_form.dart';
-import 'package:pharmacystore/lab/Doctor/view/lab_form.dart';
 import 'package:pharmacystore/lab/Doctor/view/manage_doctor_appointments.dart';
 import 'package:pharmacystore/lab/Doctor/view/manage_doctor_screen.dart';
 
 import '../../Screens/splash_screen.dart';
 import '../../Services/auth_services.dart';
-import 'manage_appointment-screen.dart';
-import 'manage_labs_sreen.dart';
 
 class AddDoctorScreen extends StatefulWidget {
   const AddDoctorScreen({Key? key}) : super(key: key);
@@ -24,6 +22,8 @@ class _AddDoctorScreenState extends State<AddDoctorScreen> {
       return const ManageDoctor();
     } else if (currentIndex == 1) {
       return const ManageDoctorAppointment();
+    } else {
+      return const AllPatientMessagedScreen();
     }
   }
 
@@ -53,6 +53,10 @@ class _AddDoctorScreenState extends State<AddDoctorScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.pending_actions),
             label: 'Appointments',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.message),
+            label: 'Messages',
           ),
         ],
       ),

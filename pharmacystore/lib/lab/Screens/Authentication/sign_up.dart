@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
@@ -102,7 +104,7 @@ class _SignUpState extends State<SignUp> {
                               ),
                             ],
                           )),
-                      SizedBox(height: 40),
+                      const SizedBox(height: 40),
                       Center(
                         child: AuthButton(
                           onTap: () async {
@@ -147,6 +149,7 @@ class _SignUpState extends State<SignUp> {
                                       fontSize: 16.0);
                                 }
                               } catch (e) {
+                                log(e.toString());
                                 setState(() {
                                   scroll = false;
                                 });

@@ -7,6 +7,7 @@ import 'package:pharmacystore/lab/Screens/result_screen.dart';
 import 'package:pharmacystore/lab/Screens/splash_screen.dart';
 import 'package:pharmacystore/view/models/user_model.dart';
 
+import '../../docs/all_docs_screen.dart';
 import '../Services/auth_services.dart';
 import 'appointment_screen.dart';
 
@@ -26,8 +27,10 @@ class _NavigatorScreenForPatientState extends State<NavigatorScreenForPatient> {
       return NearByScreen();
     } else if (currentIndex == 1) {
       return AppointmentScreen();
-    } else {
+    } else if (currentIndex == 2) {
       return ResultScreen();
+    } else {
+      return AllDocsScreen();
     }
   }
 
@@ -61,14 +64,15 @@ class _NavigatorScreenForPatientState extends State<NavigatorScreenForPatient> {
 
                         return Column(
                           children: [
-                            CircleAvatar(
+                            const CircleAvatar(
                               radius: 30,
                               backgroundImage: AssetImage('assets/profile.png'),
                             ),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             Text(
                               model!.name,
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
                             ),
                             SizedBox(height: 10),
                             Text(
@@ -85,13 +89,16 @@ class _NavigatorScreenForPatientState extends State<NavigatorScreenForPatient> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Theme.of(context).primaryColor,
+        showUnselectedLabels: true,
+        unselectedItemColor: Colors.grey,
         onTap: (int) {
           setState(() {
             currentIndex = int;
           });
         },
         currentIndex: currentIndex,
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
@@ -104,6 +111,10 @@ class _NavigatorScreenForPatientState extends State<NavigatorScreenForPatient> {
             icon: Icon(Icons.perm_contact_calendar_sharp),
             label: 'Results',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_pin),
+            label: 'Doctors',
+          ),
         ],
       ),
       appBar: AppBar(
@@ -114,8 +125,11 @@ class _NavigatorScreenForPatientState extends State<NavigatorScreenForPatient> {
                 ? 'Nearby Labs'
                 : currentIndex == 1
                     ? 'Appointments'
-                    : 'Results',
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                    : currentIndex == 2
+                        ? 'Results'
+                        : 'Doctors',
+            style: const TextStyle(
+                color: Colors.black, fontWeight: FontWeight.bold),
           ),
         ),
         automaticallyImplyLeading: false,
@@ -123,7 +137,7 @@ class _NavigatorScreenForPatientState extends State<NavigatorScreenForPatient> {
         leading: Builder(
           builder: (context) => TextButton(
             onPressed: () => Scaffold.of(context).openDrawer(),
-            child: Icon(
+            child: const Icon(
               Icons.menu,
               color: Colors.black,
             ),
