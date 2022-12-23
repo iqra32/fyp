@@ -3,10 +3,8 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pharmacystore/lab/Doctor/Model/doctor_appointment_model.dart';
-import 'package:pharmacystore/lab/Doctor/view/send_result_screen.dart';
 import 'package:pharmacystore/lab/Services/auth_services.dart';
 
-import '../Model/appointments_model.dart';
 import '../Services/services.dart';
 
 class ManageDoctorAppointment extends StatelessWidget {

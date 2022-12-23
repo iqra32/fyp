@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\yc\\Documents\\pharmacystore\\pharmacystore\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v18\\values-v18.xml",
+            "outputFile": "/Users/adil/Development/FlutterProjects/MedicalCareFYP/fyp/pharmacystore/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-v18/values-v18.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\yc\\.gradle\\caches\\transforms-3\\94232131e99ed81ac94588fc692a1f93\\transformed\\appcompat-1.2.0\\res\\values-v18\\values-v18.xml",
+                    "source": "/Users/adil/.gradle/caches/transforms-3/94232131e99ed81ac94588fc692a1f93/transformed/appcompat-1.2.0/res/values-v18/values-v18.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

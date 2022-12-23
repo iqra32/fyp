@@ -137,6 +137,8 @@ class _AddMedicineState extends State<AddMedicine> {
                         'title': titleCont.text,
                         'imageurl': imageUrlCont.text,
                         'description': descCont.text,
+                        'is_medicine': true,
+                        'is_disease': false,
                         'addedBy': FirebaseAuth.instance.currentUser!.uid,
                         'addedAt': Timestamp.now()
                       }).whenComplete(() async {

@@ -6,6 +6,7 @@ import 'package:pharmacystore/lab/Nearby/nearby_screen.dart';
 import 'package:pharmacystore/lab/Screens/result_screen.dart';
 import 'package:pharmacystore/lab/Screens/splash_screen.dart';
 import 'package:pharmacystore/view/models/user_model.dart';
+import 'package:pharmacystore/view/search.dart';
 
 import '../../docs/all_docs_screen.dart';
 import '../Services/auth_services.dart';
@@ -26,8 +27,10 @@ class _NavigatorScreenForPatientState extends State<NavigatorScreenForPatient> {
     if (currentIndex == 0) {
       return NearByScreen();
     } else if (currentIndex == 1) {
-      return AppointmentScreen();
+      return const SearchScreen();
     } else if (currentIndex == 2) {
+      return AppointmentScreen();
+    } else if (currentIndex == 3) {
       return ResultScreen();
     } else {
       return AllDocsScreen();
@@ -104,6 +107,10 @@ class _NavigatorScreenForPatientState extends State<NavigatorScreenForPatient> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Search',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.pending_actions),
             label: 'Appointments',
           ),
@@ -124,10 +131,12 @@ class _NavigatorScreenForPatientState extends State<NavigatorScreenForPatient> {
             currentIndex == 0
                 ? 'Nearby Labs'
                 : currentIndex == 1
-                    ? 'Appointments'
+                    ? 'Search medicines | diseases'
                     : currentIndex == 2
-                        ? 'Results'
-                        : 'Doctors',
+                        ? 'Appointments'
+                        : currentIndex == 3
+                            ? 'Results'
+                            : 'Doctors',
             style: const TextStyle(
                 color: Colors.black, fontWeight: FontWeight.bold),
           ),
