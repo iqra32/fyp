@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pharmacystore/model/model_medicine.dart';
+import 'package:pharmacystore/utils/search.dart';
 
 import '../view/product_detail_screen.dart';
 
@@ -62,6 +63,12 @@ class MedicinesGrid extends StatelessWidget {
             obj.reference.delete(); // deletes null data objects from firebase
             return SizedBox();
           } else {
+            print(SearchController.searchText);
+            if (!med.title!
+                .toLowerCase()
+                .contains(SearchController.searchText)) {
+              return SizedBox();
+            }
             return GestureDetector(
               onTap: () {
                 // obj.reference.delete();

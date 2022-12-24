@@ -39,7 +39,7 @@ class _GoogleMapForPharmacyState extends State<GoogleMapForPharmacy> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16),
         child: GoogleMap(
-          mapType: MapType.terrain,
+          mapType: MapType.normal,
           myLocationButtonEnabled: false,
           zoomControlsEnabled: false,
           markers: _markers,
