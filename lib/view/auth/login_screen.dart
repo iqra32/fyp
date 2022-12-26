@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:pharmacystore/lab/Screens/info_page.dart';
 import 'package:pharmacystore/utils/data.dart';
 import 'package:pharmacystore/view/admin/admin_home.dart';
 import 'package:pharmacystore/view/auth/register.dart';
@@ -241,7 +240,7 @@ class _SignInState extends State<SignIn> {
               {
                 Navigator.of(context)
                     .pushReplacement(MaterialPageRoute(builder: (context) {
-                  return DashboardScreen();
+                  return const HomeView();
                 }));
               }
               break;

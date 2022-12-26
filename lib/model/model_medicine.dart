@@ -1,5 +1,5 @@
 class Medicine {
-  final int id;
+  final String id;
 
   final String? price;
   final String? imageurl;

@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:pharmacystore/utils/data.dart';
-import 'package:pharmacystore/utils/search.dart';
 import 'package:pharmacystore/view/app_drawer.dart';
 import 'package:pharmacystore/view/notifications.dart';
 
@@ -102,10 +101,6 @@ class _HomeViewState extends State<HomeView> {
             suffixIcon: Icon(Icons.search),
             label: Text("Search"),
           ),
-          onChanged: (v) {
-            SearchController.searchText = v.toLowerCase();
-            setState(() {});
-          },
         ),
       ),
     );

@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pharmacystore/model/model_medicine.dart';
-import 'package:pharmacystore/utils/search.dart';
 
 import '../view/product_detail_screen.dart';
 
@@ -10,11 +9,11 @@ class MedicinesGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference medRef =
+    CollectionReference users =
         FirebaseFirestore.instance.collection('medicines');
 
     return StreamBuilder<QuerySnapshot>(
-      stream: medRef.snapshots(),
+      stream: users.snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return const Text("Something went wrong");
@@ -53,7 +52,7 @@ class MedicinesGrid extends StatelessWidget {
 
           Map data = obj.data() as Map;
           Medicine med = Medicine(
-              id: data['id'] ?? 0,
+              id: data['id'] ?? "0",
               price: data['price'],
               imageurl: data["imageurl"],
               description: data["description"],
@@ -63,12 +62,6 @@ class MedicinesGrid extends StatelessWidget {
             obj.reference.delete(); // deletes null data objects from firebase
             return SizedBox();
           } else {
-            print(SearchController.searchText);
-            if (!med.title!
-                .toLowerCase()
-                .contains(SearchController.searchText)) {
-              return SizedBox();
-            }
             return GestureDetector(
               onTap: () {
                 // obj.reference.delete();

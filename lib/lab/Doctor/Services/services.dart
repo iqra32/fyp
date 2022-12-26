@@ -20,6 +20,8 @@ class Services {
 
   final CollectionReference resultReference =
       FirebaseFirestore.instance.collection('Results');
+  final CollectionReference chatReference =
+      FirebaseFirestore.instance.collection('chat');
 
   //get Labs stream
   Stream<QuerySnapshot> getLabsList() {
@@ -31,6 +33,10 @@ class Services {
   //get doctor stream
   Stream<QuerySnapshot> getDoctorsList() {
     return doctorReference.snapshots();
+  }
+
+  Stream<QuerySnapshot> getPatientMessagedList(String docId) {
+    return chatReference.doc(docId).collection('messages').snapshots();
   }
 
   //get tests stream

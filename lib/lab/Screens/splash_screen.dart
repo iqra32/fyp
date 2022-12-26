@@ -7,7 +7,7 @@ import 'package:lottie/lottie.dart';
 import 'package:pharmacystore/firebase_functions/getUser.dart';
 import 'package:pharmacystore/lab/Doctor/view/add_doctor_screen.dart';
 import 'package:pharmacystore/lab/Doctor/view/home_screen_for_doctor.dart';
-import 'package:pharmacystore/lab/Screens/info_page.dart';
+import 'package:pharmacystore/lab/Screens/navigator_screen_for_patient.dart';
 import 'package:pharmacystore/lab/goto_screen.dart';
 import 'package:pharmacystore/utils/data.dart';
 import 'package:pharmacystore/view/admin/admin_home.dart';
@@ -80,7 +80,7 @@ void navigateToRole(String role, context) {
 
       case "user":
         {
-          page = const DashboardScreen();
+          page = const NavigatorScreenForPatient();
         }
         break;
       case "Pharmacist":

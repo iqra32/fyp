@@ -11,7 +11,6 @@ class NotificationModel {
     this.medId,
     this.type,
     this.deliveryStatus,
-    this.location,
   });
 
   NotificationModel.fromJson(dynamic json) {
@@ -24,7 +23,6 @@ class NotificationModel {
     medId = json['medId'];
     type = json['type'];
     deliveryStatus = json['deliveryStatus'];
-    location = json['location'];
   }
   String? sentby;
   String? sentFor;
@@ -35,7 +33,6 @@ class NotificationModel {
   String? medId;
   String? type;
   String? deliveryStatus;
-  GeoPoint? location;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -48,7 +45,6 @@ class NotificationModel {
     map['deliveryStatus'] = deliveryStatus;
     map['type'] = type;
     map['medId'] = medId;
-    map['location'] = location;
     return map;
   }
 }

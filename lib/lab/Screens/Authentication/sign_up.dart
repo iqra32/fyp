@@ -1,10 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pharmacystore/firebase_functions/getUser.dart';
-import 'package:pharmacystore/lab/Nearby/location_model.dart';
-import 'package:pharmacystore/lab/Nearby/location_services.dart';
 import 'package:pharmacystore/lab/Screens/splash_screen.dart';
 import 'package:pharmacystore/utils/data.dart';
 
@@ -30,18 +29,6 @@ class _SignUpState extends State<SignUp> {
   String? password;
   String? userName;
   final _formKey = GlobalKey<FormState>();
-  LocationModel? currentLocation;
-
-  getLocation() async {
-    currentLocation = await LocationServices().getCurrentLocation();
-  }
-
-  @override
-  void initState() {
-    getLocation();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -117,7 +104,7 @@ class _SignUpState extends State<SignUp> {
                               ),
                             ],
                           )),
-                      SizedBox(height: 40),
+                      const SizedBox(height: 40),
                       Center(
                         child: AuthButton(
                           onTap: () async {
@@ -128,13 +115,10 @@ class _SignUpState extends State<SignUp> {
                                 });
                                 final result = await AuthServices()
                                     .createUserWithEmailAndPassword(
-                                        email!, password!);
+                                  email!,
+                                  password!,
+                                );
                                 if (result != null) {
-                                  GeoPoint gp = const GeoPoint(0.0, 0.0);
-                                  if (currentLocation != null) {
-                                    gp = GeoPoint(currentLocation!.latitude,
-                                        currentLocation!.longitude);
-                                  }
                                   DatabaseServices().addUserToDatabase(
                                     userName!,
                                     email!,
@@ -142,7 +126,6 @@ class _SignUpState extends State<SignUp> {
                                     '',
                                     AuthServices().getUid(),
                                     widget.cast,
-                                    gp,
                                   );
                                   AppUser.data = await getUser();
                                   navigateToRole(widget.cast, context);
@@ -168,6 +151,7 @@ class _SignUpState extends State<SignUp> {
                                       fontSize: 16.0);
                                 }
                               } catch (e) {
+                                log(e.toString());
                                 setState(() {
                                   scroll = false;
                                 });
