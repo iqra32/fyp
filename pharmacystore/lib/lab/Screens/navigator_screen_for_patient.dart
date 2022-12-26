@@ -25,9 +25,9 @@ class _NavigatorScreenForPatientState extends State<NavigatorScreenForPatient> {
 
   getScreen() {
     if (currentIndex == 0) {
-      return NearByScreen();
-    } else if (currentIndex == 1) {
       return const SearchScreen();
+    } else if (currentIndex == 1) {
+      return NearByScreen();
     } else if (currentIndex == 2) {
       return AppointmentScreen();
     } else if (currentIndex == 3) {
@@ -103,12 +103,12 @@ class _NavigatorScreenForPatientState extends State<NavigatorScreenForPatient> {
         currentIndex: currentIndex,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.search),
             label: 'Search',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.near_me_rounded),
+            label: 'Nearby',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.pending_actions),
@@ -129,9 +129,9 @@ class _NavigatorScreenForPatientState extends State<NavigatorScreenForPatient> {
         title: Center(
           child: Text(
             currentIndex == 0
-                ? 'Nearby Labs'
+                ? 'Search medicines | diseases'
                 : currentIndex == 1
-                    ? 'Search medicines | diseases'
+                    ? 'Nearby'
                     : currentIndex == 2
                         ? 'Appointments'
                         : currentIndex == 3

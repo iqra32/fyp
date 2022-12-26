@@ -1,11 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pharmacystore/lab/goto_screen.dart';
-import 'package:pharmacystore/utils/enums.dart';
-import 'package:pharmacystore/utils/refs.dart';
-import 'package:pharmacystore/view/admin/pharmacies_admin_view.dart';
-import 'package:pharmacystore/view/models/user_model.dart';
+import 'package:pharmacystore/lab/Services/auth_services.dart';
+import 'package:pharmacystore/view/manage_disease.dart';
+
+import '../../lab/Screens/splash_screen.dart';
+import '../manage_users.dart';
 
 class AdminHomePage extends StatefulWidget {
   const AdminHomePage({Key? key}) : super(key: key);
@@ -15,227 +14,140 @@ class AdminHomePage extends StatefulWidget {
 }
 
 class _AdminHomePageState extends State<AdminHomePage> {
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF800080),
+        title: const Text('Admin Dashboard'),
+        centerTitle: true,
+        actions: [
+          InkWell(
+            onTap: () async {
+              await AuthServices().logout();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return SplashScreen();
+                  },
+                ),
+              );
+            },
+            child: const Icon(Icons.login),
+          ),
+          const SizedBox(width: 20.0),
+        ],
+      ),
+      body: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: SuperAdminCard(
+                  title: "Manage Diseases",
+                  image: "disease.jpeg",
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const ManageDisease(),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: SuperAdminCard(
+                  title: "Manage Doctors",
+                  image: "doctor.jpeg",
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const ManageUsers(role: "doctor"),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: SuperAdminCard(
+                  title: "Manage Medical Stores",
+                  image: "pharmacy.jpeg",
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const ManageUsers(role: "Pharmacist"),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: SuperAdminCard(
+                  title: "Manage Laboratory",
+                  image: "lab.jpeg",
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const ManageUsers(role: "lab"),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SuperAdminCard extends StatelessWidget {
+  final String title;
+  final String image;
+  final VoidCallback? onPressed;
+  const SuperAdminCard(
+      {Key? key, required this.title, required this.image, this.onPressed})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    ButtonStyle style = ButtonStyle(
-      shape: MaterialStateProperty.all<OutlinedBorder>(
-        RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
-          side: BorderSide.none,
+    return InkWell(
+      onTap: onPressed,
+      child: Container(
+        height: 160,
+        margin: const EdgeInsets.symmetric(
+          horizontal: 10.0,
+          vertical: 10.0,
         ),
-      ),
-      backgroundColor: MaterialStateProperty.resolveWith<Color?>(
-        (states) {
-          return Colors.blueGrey;
-        },
-      ),
-      padding: MaterialStateProperty.all(
-          EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0)),
-      elevation: MaterialStateProperty.all<double>(2.0),
-    );
-    return Scaffold(
-      key: scaffoldKey,
-      appBar: AppBar(
-        backgroundColor: Color(0xB1592034),
-        automaticallyImplyLeading: true,
-        title: const Text(
-          'Pharmacy Store Admin',
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            color: Color(0xFFF8F8F8),
-            fontWeight: FontWeight.w500,
+        padding: const EdgeInsets.all(10.0),
+        decoration: const BoxDecoration(
+          color: Color(0xff800080),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
           ),
         ),
-        actions: [],
-        centerTitle: true,
-        elevation: 0,
-      ),
-      body: SafeArea(
         child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            StreamBuilder<QuerySnapshot>(
-                stream: FBCollections.users
-                    .where('role', isEqualTo: UserRole.pharmacist)
-                    .snapshots(),
-                builder: (context, AsyncSnapshot<QuerySnapshot> pharmacySnap) {
-                  if (pharmacySnap.hasData) {
-                    return Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(12, 12, 12, 12),
-                      child: GestureDetector(
-                        onTap: () {
-                          List<Users> u = pharmacySnap.data!.docs
-                              .map((e) => Users.fromJson(
-                                  e.data() as Map<String, dynamic>))
-                              .toList();
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) {
-                            return PharmaciesAdminView();
-                          }));
-                        },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height * 0.15,
-                          decoration: BoxDecoration(
-                            color: Color(0xFFF8F8F8),
-                            boxShadow: const [
-                              BoxShadow(
-                                blurRadius: 5,
-                                color: Color(0x33000000),
-                                offset: Offset(2, 2),
-                              )
-                            ],
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              width: 0.5,
-                            ),
-                          ),
-                          child: Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(12, 8, 12, 8),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text(
-                                  'Pharmacies',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                Text(
-                                  pharmacySnap.data!.docs.length.toString(),
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  } else {
-                    return CircularProgressIndicator();
-                  }
-                }),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(12, 12, 12, 12),
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.15,
-                decoration: BoxDecoration(
-                  color: Color(0xFFF8F8F8),
-                  boxShadow: const [
-                    BoxShadow(
-                      blurRadius: 5,
-                      color: Color(0x33000000),
-                      offset: Offset(2, 2),
-                    )
-                  ],
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    width: 0.5,
-                  ),
-                ),
-                child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(12, 8, 12, 8),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text(
-                        'Symptoms',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        '10',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 18,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10.0),
+              child: Image.asset(
+                'assets/icons/$image',
+                fit: BoxFit.fill,
+                height: 100.0,
               ),
             ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(12, 12, 12, 12),
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.15,
-                decoration: BoxDecoration(
-                  color: Color(0xFFF8F8F8),
-                  boxShadow: const [
-                    BoxShadow(
-                      blurRadius: 5,
-                      color: Color(0x33000000),
-                      offset: Offset(2, 2),
-                    )
-                  ],
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    width: 0.5,
-                  ),
-                ),
-                child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(12, 8, 12, 8),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text(
-                        'Feedbacks',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        '40',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 18,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+            const SizedBox(height: 20.0),
+            Text(
+              title,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
               ),
-            ),
-            Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      FirebaseAuth.instance.signOut();
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(builder: (builder) => GotoPage()),
-                          (route) => false);
-                    },
-                    style: style,
-                    child: Text("Logout"),
-                  ),
-                ],
-              ),
+              textAlign: TextAlign.center,
             ),
           ],
         ),

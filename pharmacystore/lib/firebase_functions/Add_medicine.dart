@@ -129,11 +129,12 @@ class _AddMedicineState extends State<AddMedicine> {
                           fontStyle: FontStyle.normal),
                     ),
                     onPressed: () async {
-                      await FirebaseFirestore.instance
+                      DocumentReference docRef = FirebaseFirestore.instance
                           .collection("medicines")
-                          .doc()
-                          .set({
+                          .doc();
+                      await docRef.set({
                         'price': priceCont.text,
+                        'id': docRef.id,
                         'title': titleCont.text,
                         'imageurl': imageUrlCont.text,
                         'description': descCont.text,
@@ -142,8 +143,11 @@ class _AddMedicineState extends State<AddMedicine> {
                         'addedBy': FirebaseAuth.instance.currentUser!.uid,
                         'addedAt': Timestamp.now()
                       }).whenComplete(() async {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text("Medicine added successfully")));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Medicine added successfully"),
+                          ),
+                        );
                         priceCont.clear();
                         titleCont.clear();
                         imageUrlCont.clear();

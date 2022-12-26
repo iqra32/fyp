@@ -6,9 +6,11 @@ import 'package:pharmacystore/model/disease_medicine_model.dart';
 import 'package:pharmacystore/model/search_filter_model.dart';
 import 'package:pharmacystore/utils/app_colors.dart';
 import 'package:pharmacystore/utils/data.dart';
+import 'package:pharmacystore/view/models/user_model.dart';
 import 'package:pharmacystore/widgets/disease_card.dart';
 import 'package:pharmacystore/widgets/medicine_card.dart';
 import 'package:pharmacystore/widgets/search_filter_item_card.dart';
+import 'package:pharmacystore/widgets/user_card.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -20,7 +22,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
   SearchFilterModel selectedFilter = Data().searchFilters[0];
-  List<DiseaseAndMedicines> searchedListing = [];
+  List<DiseaseMedicinesUsers> searchedListing = [];
   bool _isSearchApplied = false;
 
   @override
@@ -187,20 +189,26 @@ class _SearchScreenState extends State<SearchScreen> {
                     scrollDirection: Axis.vertical,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (BuildContext context, int index) {
-                      DiseaseAndMedicines _diseaseAndMedicine =
+                      DiseaseMedicinesUsers _diseaseMedicineUsers =
                           getSelectedFilterList()[index];
-                      return _diseaseAndMedicine.isDisease
+                      return _diseaseMedicineUsers.isDisease
                           ? DiseaseCard(
-                              title: _diseaseAndMedicine.title,
-                              description: _diseaseAndMedicine.description,
+                              title: _diseaseMedicineUsers.title!,
+                              description: _diseaseMedicineUsers.description!,
                             )
-                          : _diseaseAndMedicine.isMedicine
+                          : _diseaseMedicineUsers.isMedicine
                               ? MedicineCard(
-                                  title: _diseaseAndMedicine.title,
-                                  description: _diseaseAndMedicine.description,
-                                  image: _diseaseAndMedicine.imageurl!,
+                                  title: _diseaseMedicineUsers.title!,
+                                  description:
+                                      _diseaseMedicineUsers.description!,
+                                  image: _diseaseMedicineUsers.imageurl!,
                                 )
-                              : const SizedBox.shrink();
+                              : (_diseaseMedicineUsers.isUser != null &&
+                                      _diseaseMedicineUsers.isUser == true)
+                                  ? UserCard(
+                                      user: _diseaseMedicineUsers.user!,
+                                    )
+                                  : const SizedBox.shrink();
                     },
                   ),
                 ],
@@ -212,14 +220,14 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  List<DiseaseAndMedicines> getSelectedFilterList({
+  List<DiseaseMedicinesUsers> getSelectedFilterList({
     int? selectedListingType,
   }) {
     selectedListingType ??= getSelectedFilterType();
 
-    List<DiseaseAndMedicines> dataList =
+    List<DiseaseMedicinesUsers> dataList =
         _isSearchApplied ? searchedListing : [];
-    List<DiseaseAndMedicines> listing = [];
+    List<DiseaseMedicinesUsers> listing = [];
     if (selectedListingType == Data().allListing) {
       listing = dataList;
     } else if (selectedListingType == Data().isMedicine) {
@@ -227,6 +235,20 @@ class _SearchScreenState extends State<SearchScreen> {
           dataList.where((element) => element.isMedicine == true).toList();
     } else if (selectedListingType == Data().isDisease) {
       listing = dataList.where((element) => element.isDisease == true).toList();
+    } else if (selectedListingType == Data().isDoctor) {
+      listing = dataList
+          .where((element) => element.user?.role.toLowerCase() == Data.DOCTORS)
+          .toList();
+    } else if (selectedListingType == Data().isLaboratory) {
+      listing = dataList
+          .where(
+              (element) => element.user?.role.toLowerCase() == Data.LABORATORY)
+          .toList();
+    } else if (selectedListingType == Data().isMedicalStore) {
+      listing = dataList
+          .where((element) =>
+              element.user?.role.toLowerCase() == Data.MEDICAL_STORE)
+          .toList();
     }
     return listing;
   }
@@ -246,18 +268,33 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   int getItemLength() {
-    List<DiseaseAndMedicines> list =
+    List<DiseaseMedicinesUsers> list =
         _searchController.text.isEmpty ? [] : searchedListing;
     int _length = list.length;
 
     if (selectedFilter.key != Data.ALL) {
       _length = 0;
       bool isMedicine = selectedFilter.key == Data.MEDICINES,
-          isDisease = selectedFilter.key == Data.DISEASES;
-      for (DiseaseAndMedicines value in list) {
+          isDisease = selectedFilter.key == Data.DISEASES,
+          isDoctor = selectedFilter.key == Data.DOCTORS,
+          isMedicalStore = selectedFilter.key == Data.MEDICAL_STORE,
+          isLaboratory = selectedFilter.key == Data.LABORATORY;
+      for (DiseaseMedicinesUsers value in list) {
         if (value.isMedicine && isMedicine) {
           _length++;
         } else if (value.isDisease && isDisease) {
+          _length++;
+        } else if ((value.isUser != null &&
+                value.user!.role.toLowerCase() == Data.DOCTORS) &&
+            isDoctor) {
+          _length++;
+        } else if ((value.isUser != null &&
+                value.user!.role.toLowerCase() == Data.MEDICAL_STORE) &&
+            isMedicalStore) {
+          _length++;
+        } else if ((value.isUser != null &&
+                value.user!.role.toLowerCase() == Data.LABORATORY) &&
+            isLaboratory) {
           _length++;
         }
       }
@@ -270,31 +307,45 @@ class _SearchScreenState extends State<SearchScreen> {
     setState(() {});
   }
 
-  void _searchListing() {
+  void _searchListing() async {
     String searchText = _searchController.text.trim();
 
     // remove previous search results if present any
     searchedListing.clear();
 
-    print("searching");
-    FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection("medicines")
         .where('description', isGreaterThanOrEqualTo: searchText)
         .where('description', isLessThan: '${searchText}z')
         .get()
         .then((value) {
       value.docs.forEach((element) {
-        searchedListing.add(element.data() as DiseaseAndMedicines);
+        searchedListing.add(DiseaseMedicinesUsers.fromJson(element.data()));
       });
     });
 
-    print(searchedListing.length);
+    await FirebaseFirestore.instance
+        .collection("users")
+        .where(
+          'keywords',
+          arrayContains: searchText,
+        )
+        .get()
+        .then((value) {
+      value.docs.forEach((element) {
+        searchedListing.add(
+          DiseaseMedicinesUsers(
+            isDisease: false,
+            isMedicine: false,
+            isUser: true,
+            user: Users.fromJson(
+              element.data(),
+            ),
+          ),
+        );
+      });
+    });
 
-    // for (var value in Data().listing) {
-    //   if (value.tags.contains(searchText)) {
-    //     searchedListing.add(value);
-    //   }
-    // }
     _isSearchApplied = true;
     setState(() {});
   }
@@ -304,5 +355,40 @@ class _SearchScreenState extends State<SearchScreen> {
     _searchController.clear();
     searchedListing.clear();
     setState(() {});
+  }
+}
+
+class CustomCard extends StatelessWidget {
+  final String title;
+  final VoidCallback? onPressed;
+  const CustomCard({
+    Key? key,
+    required this.title,
+    this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onPressed,
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.appWhiteColor,
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        padding: const EdgeInsets.symmetric(
+          vertical: 10.0,
+          horizontal: 20.0,
+        ),
+        child: Text(
+          title,
+          style: const TextStyle(
+            color: AppColors.appBlackColor,
+            fontWeight: FontWeight.bold,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
   }
 }

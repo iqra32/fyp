@@ -57,12 +57,14 @@ class DatabaseServices {
     String cast,
   ) async {
     return await userReference.doc(uid).set(Users(
-            id: uid,
-            name: userName,
-            role: cast,
-            status: UserStatus.active,
-            email: email)
-        .toJson());
+          id: uid,
+          name: userName,
+          role: cast,
+          status: UserStatus.active,
+          email: email,
+          keywords: [],
+          isAllowed: true,
+        ).toJson());
   }
 
   //add test to database

@@ -115,7 +115,9 @@ class _SignUpState extends State<SignUp> {
                                 });
                                 final result = await AuthServices()
                                     .createUserWithEmailAndPassword(
-                                        email!, password!);
+                                  email!,
+                                  password!,
+                                );
                                 if (result != null) {
                                   DatabaseServices().addUserToDatabase(
                                     userName!,

@@ -1,9 +1,11 @@
 import 'dart:convert';
 
-DiseaseAndMedicines diseaseAndMedicinesFromJson(String str) =>
-    DiseaseAndMedicines.fromJson(json.decode(str));
+import '../view/models/user_model.dart';
 
-String diseaseAndMedicinesToJson(DiseaseAndMedicines data) =>
+DiseaseMedicinesUsers diseaseAndMedicinesFromJson(String str) =>
+    DiseaseMedicinesUsers.fromJson(json.decode(str));
+
+String diseaseAndMedicinesToJson(DiseaseMedicinesUsers data) =>
     json.encode(data.toJson());
 
 // Title, description, id, addedBy parameters will be present in both medicines and diseases
@@ -12,37 +14,43 @@ String diseaseAndMedicinesToJson(DiseaseAndMedicines data) =>
 // imageurl and price are parameters of medicine
 // medications is parameter of disease
 
-class DiseaseAndMedicines {
-  DiseaseAndMedicines({
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.addedBy,
+class DiseaseMedicinesUsers {
+  DiseaseMedicinesUsers({
+    this.id,
+    this.title,
+    this.description,
+    this.addedBy,
     required this.isMedicine,
     required this.isDisease,
+    this.isUser, // is user true when showing results from users collection and also this take user model parameter
+    this.user,
     this.imageurl,
     this.price,
     this.medications,
   });
 
-  int id;
-  String title;
-  String description;
-  String addedBy;
+  String? id;
+  String? title;
+  String? description;
+  String? addedBy;
   String? imageurl;
   String? price;
   bool isMedicine;
   bool isDisease;
+  bool? isUser;
+  Users? user;
   List<String>? medications;
 
-  factory DiseaseAndMedicines.fromJson(Map<String, dynamic> json) =>
-      DiseaseAndMedicines(
+  factory DiseaseMedicinesUsers.fromJson(Map<String, dynamic> json) =>
+      DiseaseMedicinesUsers(
         id: json["id"],
         title: json["title"],
         description: json["description"],
         addedBy: json["addedBy"],
         isMedicine: json["is_medicine"],
         isDisease: json["is_disease"],
+        isUser: json["is_user"],
+        user: json["user"],
         imageurl: json["imageurl"],
         price: json["price"],
         medications: json["medications"] == null
@@ -57,6 +65,8 @@ class DiseaseAndMedicines {
         "addedBy": addedBy,
         "is_medicine": isMedicine,
         "is_disease": isDisease,
+        "is_user": isUser,
+        "user": user,
         "imageurl": imageurl,
         "price": price,
         "medications": medications == null

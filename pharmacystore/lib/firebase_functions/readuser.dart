@@ -52,7 +52,7 @@ class MedicinesGrid extends StatelessWidget {
 
           Map data = obj.data() as Map;
           Medicine med = Medicine(
-              id: data['id'] ?? 0,
+              id: data['id'] ?? "0",
               price: data['price'],
               imageurl: data["imageurl"],
               description: data["description"],

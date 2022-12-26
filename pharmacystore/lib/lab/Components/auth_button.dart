@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 class AuthButton extends StatelessWidget {
   final dynamic onTap;
   final String title;
+  final TextAlign? textAlign;
   const AuthButton({
     Key? key,
     required this.title,
     required this.onTap,
+    this.textAlign,
   }) : super(key: key);
 
   @override
@@ -23,6 +25,7 @@ class AuthButton extends StatelessWidget {
         child: Text(
           title,
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          textAlign: textAlign,
         ),
       ),
     );
