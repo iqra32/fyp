@@ -100,14 +100,14 @@ class MedicinesGrid extends StatelessWidget {
 
                       med.imageurl == null
                           ? SizedBox(
-                              height: 140,
+                              height: 120,
                               child: Center(
                                 child: Text("No Preview"),
                               ),
                             )
                           : med.imageurl!.isEmpty
                               ? SizedBox(
-                                  height: 140,
+                                  height: 120,
                                   child: Center(
                                     child: Text("No Preview"),
                                   ),
@@ -118,7 +118,7 @@ class MedicinesGrid extends StatelessWidget {
                                     med.imageurl!,
                                     fit: BoxFit.cover,
                                     width: double.infinity,
-                                    height: 140,
+                                    height: 120,
                                   ),
                                 ),
                       const SizedBox(

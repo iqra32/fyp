@@ -55,16 +55,18 @@ class DatabaseServices {
     String profileUrl,
     String uid,
     String cast,
+    GeoPoint geoPoint,
   ) async {
     return await userReference.doc(uid).set(Users(
-          id: uid,
-          name: userName,
-          role: cast,
-          status: UserStatus.active,
-          email: email,
-          keywords: [],
-          isAllowed: true,
-        ).toJson());
+            id: uid,
+            name: userName,
+            role: cast,
+            status: UserStatus.active,
+            email: email,
+            keywords: [],
+            isAllowed: true,
+            geopoint: geoPoint)
+        .toJson());
   }
 
   //add test to database

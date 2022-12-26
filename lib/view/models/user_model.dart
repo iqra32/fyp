@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Users {
   final String id;
   final String email;
@@ -6,7 +8,7 @@ class Users {
   final bool isAllowed;
   final String status;
   final List<String> keywords;
-
+  GeoPoint geopoint;
   Users({
     required this.id,
     required this.email,
@@ -15,6 +17,7 @@ class Users {
     required this.isAllowed,
     required this.status,
     required this.keywords,
+    required this.geopoint,
   });
 
   factory Users.fromJson(Map<String, dynamic> jsonObject) {
@@ -25,6 +28,8 @@ class Users {
       isAllowed: jsonObject['is_allowed'] as bool,
       status: jsonObject['status'] as String,
       email: (jsonObject['email'] ?? "") as String,
+      geopoint:
+          (jsonObject['geopoint'] ?? const GeoPoint(0.0, 0.0)) as GeoPoint,
       keywords: List<String>.from(jsonObject["keywords"].map((x) => x)),
     );
   }
@@ -35,6 +40,7 @@ class Users {
     map['role'] = role;
     map['is_allowed'] = isAllowed;
     map['status'] = status;
+    map['geopoint'] = geopoint;
     map['email'] = email;
     map['keywords'] = List<String>.from(keywords.map((x) => x));
     return map;
