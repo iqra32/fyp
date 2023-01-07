@@ -5,6 +5,7 @@ import 'package:pharmacystore/firebase_functions/getUser.dart';
 import 'package:pharmacystore/lab/Nearby/nearby_screen.dart';
 import 'package:pharmacystore/lab/Screens/result_screen.dart';
 import 'package:pharmacystore/lab/Screens/splash_screen.dart';
+import 'package:pharmacystore/view/feedback.dart';
 import 'package:pharmacystore/view/models/user_model.dart';
 import 'package:pharmacystore/view/search.dart';
 
@@ -86,7 +87,17 @@ class _NavigatorScreenForPatientState extends State<NavigatorScreenForPatient> {
                         );
                       }),
                 ],
-              ))
+              )),
+              ListTile(
+                leading: Icon(Icons.feedback_outlined),
+                title: Text("Feedback"),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (builder) => GetFeedbackView()));
+                },
+              )
             ],
           ),
         ),

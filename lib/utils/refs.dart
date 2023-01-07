@@ -7,4 +7,6 @@ class FBCollections {
       FirebaseFirestore.instance.collection("users");
   static CollectionReference medicines =
       FirebaseFirestore.instance.collection("medicines");
+  static CollectionReference feedbacks =
+      FirebaseFirestore.instance.collection("feedbacks");
 }

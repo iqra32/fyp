@@ -139,7 +139,7 @@ class MedicinesGrid extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: Text(
-                          "Rs ${med.price!}",
+                          "Rs ${med.price ?? "0"}",
                           style: TextStyle(
                               fontWeight: FontWeight.normal, fontSize: 14),
                         ),
