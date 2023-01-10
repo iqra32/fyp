@@ -119,11 +119,11 @@ class _NavigatorScreenForPatientState extends State<NavigatorScreenForPatient> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.near_me_rounded),
-            label: 'Nearby',
+            label: 'Nearby Lab',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.pending_actions),
-            label: 'Appointments',
+            label: 'Lab Appoi..',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.perm_contact_calendar_sharp),

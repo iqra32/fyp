@@ -81,8 +81,7 @@ class MedicinesGrid extends StatelessWidget {
                 );
               },
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
                 child: Container(
                   width: double.infinity,
                   decoration: BoxDecoration(

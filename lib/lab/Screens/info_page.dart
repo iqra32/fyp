@@ -2,17 +2,15 @@ import 'package:flutter/material.dart';
 
 import '../../view/home_view.dart';
 
-
 class dashboard extends StatefulWidget {
   final String userName;
-  const dashboard({Key? key,required this.userName}) : super(key: key);
+  const dashboard({Key? key, required this.userName}) : super(key: key);
 
   @override
   State<dashboard> createState() => _dashboardState();
 }
 
 class _dashboardState extends State<dashboard> {
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,7 +125,7 @@ class _dashboardState extends State<dashboard> {
                       height: 100,
                     ),
                   ),
-                  Positioned(
+                  const Positioned(
                     bottom: 40,
                     left: 40,
                     child: Text(
@@ -184,9 +182,10 @@ class _dashboardState extends State<dashboard> {
                   GestureDetector(
                     onTap: (() {
                       Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => const HomeView()),
-  );
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomeView()),
+                      );
                     }),
                     child: Container(
                       margin: EdgeInsets.fromLTRB(25.0, 25.0, 25.0, 25.0),
@@ -225,10 +224,10 @@ class _dashboardState extends State<dashboard> {
                 children: [
                   GestureDetector(
                     onTap: () {
-  //                    Navigator.push(
-  //   context,
-  //   MaterialPageRoute(builder: (context) => const HomeView()),
-  // );
+                      //                    Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(builder: (context) => const HomeView()),
+                      // );
                     },
                     child: Container(
                       margin: EdgeInsets.fromLTRB(25.0, 20.0, 25.0, 25.0),

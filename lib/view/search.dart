@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:pharmacystore/firebase_functions/readuser.dart';
 import 'package:pharmacystore/model/disease_medicine_model.dart';
 import 'package:pharmacystore/model/search_filter_model.dart';
 import 'package:pharmacystore/utils/app_colors.dart';
@@ -183,34 +184,38 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                   ),
                   const SizedBox(height: 15.0),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: getItemLength(),
-                    scrollDirection: Axis.vertical,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (BuildContext context, int index) {
-                      DiseaseMedicinesUsers _diseaseMedicineUsers =
-                          getSelectedFilterList()[index];
-                      return _diseaseMedicineUsers.isDisease
-                          ? DiseaseCard(
-                              title: _diseaseMedicineUsers.title!,
-                              description: _diseaseMedicineUsers.description!,
-                            )
-                          : _diseaseMedicineUsers.isMedicine
-                              ? MedicineCard(
-                                  title: _diseaseMedicineUsers.title!,
-                                  description:
-                                      _diseaseMedicineUsers.description!,
-                                  image: _diseaseMedicineUsers.imageurl!,
-                                )
-                              : (_diseaseMedicineUsers.isUser != null &&
-                                      _diseaseMedicineUsers.isUser == true)
-                                  ? UserCard(
-                                      user: _diseaseMedicineUsers.user!,
-                                    )
-                                  : const SizedBox.shrink();
-                    },
-                  ),
+                  selectedFilter.key == Data.MEDICAL_STORE
+                      ? MedicinesGrid()
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: getItemLength(),
+                          scrollDirection: Axis.vertical,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (BuildContext context, int index) {
+                            DiseaseMedicinesUsers _diseaseMedicineUsers =
+                                getSelectedFilterList()[index];
+                            return _diseaseMedicineUsers.isDisease
+                                ? DiseaseCard(
+                                    title: _diseaseMedicineUsers.title!,
+                                    description:
+                                        _diseaseMedicineUsers.description!,
+                                  )
+                                : _diseaseMedicineUsers.isMedicine
+                                    ? MedicineCard(
+                                        title: _diseaseMedicineUsers.title!,
+                                        description:
+                                            _diseaseMedicineUsers.description!,
+                                        image: _diseaseMedicineUsers.imageurl!,
+                                      )
+                                    : (_diseaseMedicineUsers.isUser != null &&
+                                            _diseaseMedicineUsers.isUser ==
+                                                true)
+                                        ? UserCard(
+                                            user: _diseaseMedicineUsers.user!,
+                                          )
+                                        : const SizedBox.shrink();
+                          },
+                        ),
                 ],
               ),
             ),
