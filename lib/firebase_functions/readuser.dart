@@ -9,11 +9,11 @@ class MedicinesGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference users =
+    CollectionReference meds =
         FirebaseFirestore.instance.collection('medicines');
 
     return StreamBuilder<QuerySnapshot>(
-      stream: users.snapshots(),
+      stream: meds.where("is_disease", isEqualTo: false).snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return const Text("Something went wrong");
@@ -65,7 +65,7 @@ class MedicinesGrid extends StatelessWidget {
             return GestureDetector(
               onTap: () {
                 // obj.reference.delete();
-                // return;
+                // return;ad
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -139,7 +139,7 @@ class MedicinesGrid extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: Text(
-                          "Rs ${med.price!}",
+                          "Rs ${med.price ?? 0}",
                           style: TextStyle(
                               fontWeight: FontWeight.normal, fontSize: 14),
                         ),

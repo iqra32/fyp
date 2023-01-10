@@ -48,7 +48,6 @@ class NotificationModel {
     map['deliveryStatus'] = deliveryStatus;
     map['type'] = type;
     map['medId'] = medId;
-    map['location'] = location;
     return map;
   }
 }

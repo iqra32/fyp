@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pharmacystore/lab/Services/auth_services.dart';
+import 'package:pharmacystore/view/admin/Feedbacks_admin_view.dart';
 import 'package:pharmacystore/view/manage_disease.dart';
 
 import '../../lab/Screens/splash_screen.dart';
@@ -94,6 +95,23 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   ),
                 ),
               ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: SuperAdminCard(
+                  title: "Feedbacks",
+                  image: "pharmacy.jpeg",
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => FeedbacksAdminView(),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(child: SizedBox()),
             ],
           ),
         ],

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +28,6 @@ class _AllPatientMessagedScreenState extends State<AllPatientMessagedScreen> {
   }
 
   getAllPatientIds(String docId) async {
-    print(user!.toString());
     QuerySnapshot<Map<String, dynamic>> listData = await FirebaseFirestore
         .instance
         .collection('chat')
@@ -34,7 +35,7 @@ class _AllPatientMessagedScreenState extends State<AllPatientMessagedScreen> {
         .collection('messages')
         .get();
     for (int i = 0; i < listData.docs.length; i++) {
-      print('>>>>>>>${listData.docs[i]['senderId']}<<<<<<<<');
+      log('>>>>>>>${listData.docs[i]['senderId']}<<<<<<<<');
       if (!patientIds.contains(listData.docs[i]['senderId']) &&
           listData.docs[i]['senderId'] != user!.uid) {
         patientIds.add(listData.docs[i]['senderId']);
@@ -44,7 +45,7 @@ class _AllPatientMessagedScreenState extends State<AllPatientMessagedScreen> {
   }
 
   getAllPatients(List patientIds) async {
-    print(patientIds.first.toString());
+    log(patientIds.first.toString());
     for (int i = 0; i < patientIds.length; i++) {
       var v = await FirebaseFirestore.instance
           .collection('users')
